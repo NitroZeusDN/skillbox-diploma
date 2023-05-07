@@ -12,6 +12,7 @@ type Service struct {
 	mms     MMSService
 	billing BillingService
 	email   EmailService
+	voice   VoiceService
 }
 
 func (s *Service) Get() (models.ResultSetT, error) {
@@ -40,6 +41,11 @@ func (s *Service) Get() (models.ResultSetT, error) {
 		return models.ResultSetT{}, fmt.Errorf("failed to get email data: %w", err)
 	}
 
+	res.VoiceCall, err = s.voice.Get()
+	if err != nil {
+		return models.ResultSetT{}, fmt.Errorf("failed to get voice call data: %w", err)
+	}
+
 	return res, nil
 }
 
@@ -50,5 +56,6 @@ func New(tmp string) *Service {
 		mms:     NewMMSService(),
 		billing: NewBillingService(fmt.Sprintf("%s/%s", tmp, models.BillingFilename)),
 		email:   NewEmailService(fmt.Sprintf("%s/%s", tmp, models.EmailFilename)),
+		voice:   NewVoiceService(fmt.Sprintf("%s/%s", tmp, models.VoiceFilename)),
 	}
 }
