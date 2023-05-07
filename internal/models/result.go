@@ -7,6 +7,7 @@ type ResultT struct {
 }
 
 type ResultSetT struct {
+	SMS     [][]SMS `json:"sms"`
 	Billing Billing `json:"billing"`
 }
 
