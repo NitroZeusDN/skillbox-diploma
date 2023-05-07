@@ -24,6 +24,7 @@ const (
 	PROVIDER_SMS
 )
 
+// SMSFilename название файла с данными SMS.
 const SMSFilename = "sms.csv"
 
 // GetSMS возвращает список данных о СМС из csv файла.

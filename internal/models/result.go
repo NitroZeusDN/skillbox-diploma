@@ -7,8 +7,9 @@ type ResultT struct {
 }
 
 type ResultSetT struct {
-	SMS     [][]SMS `json:"sms"`
-	Billing Billing `json:"billing"`
+	SMS     [][]SMS         `json:"sms"`
+	Billing Billing         `json:"billing"`
+	Email   EmailCollection `json:"email"`
 }
 
 const (

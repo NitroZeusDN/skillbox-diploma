@@ -10,6 +10,7 @@ type Service struct {
 
 	billing BillingService
 	sms     SMSService
+	email   EmailService
 }
 
 func (s *Service) Get() (models.ResultSetT, error) {
@@ -28,6 +29,11 @@ func (s *Service) Get() (models.ResultSetT, error) {
 		return models.ResultSetT{}, fmt.Errorf("failed to get sms data: %w", err)
 	}
 
+	res.Email, err = s.email.Get()
+	if err != nil {
+		return models.ResultSetT{}, fmt.Errorf("failed to get email data: %w", err)
+	}
+
 	return res, nil
 }
 
@@ -36,5 +42,6 @@ func New(tmp string) *Service {
 		tmp:     tmp,
 		billing: NewBillingService(fmt.Sprintf("%s/%s", tmp, models.BillingFilename)),
 		sms:     NewSMSService(fmt.Sprintf("%s/%s", tmp, models.SMSFilename)),
+		email:   NewEmailService(fmt.Sprintf("%s/%s", tmp, models.EmailFilename)),
 	}
 }

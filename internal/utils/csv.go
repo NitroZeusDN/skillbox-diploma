@@ -3,7 +3,7 @@ package utils
 import "strconv"
 
 var (
-	countryCode = map[string]string{
+	CountryCode = map[string]string{
 		"AD": "Andorra",
 		"AE": "United Arab Emirates",
 		"AF": "AfghanIstan",
@@ -255,19 +255,19 @@ var (
 		"ZW": "Zimbabwe",
 	}
 
-	providerSMSLIst = map[string]bool{
+	ProviderSMSLIst = map[string]bool{
 		"Topolo": true,
 		"Rond":   true,
 		"Kildy":  true,
 	}
 
-	providerVoiceLIst = map[string]bool{
+	ProviderVoiceLIst = map[string]bool{
 		"TransparentCalls": true,
 		"E-Voice":          true,
 		"JustPhone":        true,
 	}
 
-	providerEmailLIst = map[string]bool{
+	ProviderEmailLIst = map[string]bool{
 		"Gmail":       true,
 		"Yahoo":       true,
 		"Hotmail":     true,
@@ -283,14 +283,14 @@ var (
 		"Mail.ru":     true,
 	}
 
-	statusCode = map[string]bool{
+	StatusCode = map[string]bool{
 		"active": true,
 		"closed": true,
 	}
 )
 
 func CodeToCountry(code string) string {
-	country, ok := countryCode[code]
+	country, ok := CountryCode[code]
 	if !ok {
 		return ""
 	}
@@ -299,7 +299,7 @@ func CodeToCountry(code string) string {
 }
 
 func IsValidCountry(country string) bool {
-	_, ok := countryCode[country]
+	_, ok := CountryCode[country]
 
 	return ok
 }
@@ -323,19 +323,19 @@ func IsValidResponseTime(responseTime string) bool {
 }
 
 func IsValidSMSProvider(provider string) bool {
-	_, ok := providerSMSLIst[provider]
+	_, ok := ProviderSMSLIst[provider]
 
 	return ok
 }
 
 func IsValidVoiceProvider(provider string) bool {
-	_, ok := providerVoiceLIst[provider]
+	_, ok := ProviderVoiceLIst[provider]
 
 	return ok
 }
 
 func IsValidEmailProvider(provider string) bool {
-	_, ok := providerEmailLIst[provider]
+	_, ok := ProviderEmailLIst[provider]
 
 	return ok
 }
@@ -383,7 +383,7 @@ func IsValidDeliveryTime(deliveryTime string) bool {
 }
 
 func IsValidStatus(status string) bool {
-	_, ok := statusCode[status]
+	_, ok := StatusCode[status]
 
 	return ok
 }
