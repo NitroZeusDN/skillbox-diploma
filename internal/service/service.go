@@ -14,6 +14,7 @@ type Service struct {
 	email    EmailService
 	voice    VoiceService
 	incident IncidentService
+	support  SupportService
 }
 
 func (s *Service) Get() (models.ResultSetT, error) {
@@ -52,6 +53,11 @@ func (s *Service) Get() (models.ResultSetT, error) {
 		return models.ResultSetT{}, fmt.Errorf("failed to get incidents data: %w", err)
 	}
 
+	res.Support, err = s.support.Get()
+	if err != nil {
+		return models.ResultSetT{}, fmt.Errorf("failed to get supports data: %w", err)
+	}
+
 	return res, nil
 }
 
@@ -64,5 +70,6 @@ func New(tmp, host string) *Service {
 		email:    NewEmailService(fmt.Sprintf("%s/%s", tmp, models.EmailFilename)),
 		voice:    NewVoiceService(fmt.Sprintf("%s/%s", tmp, models.VoiceFilename)),
 		incident: NewIncidentService(host),
+		support:  NewSupportService(host),
 	}
 }

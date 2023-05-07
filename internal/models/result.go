@@ -13,10 +13,5 @@ type ResultSetT struct {
 	Email     EmailCollection `json:"email"`
 	VoiceCall []Voice         `json:"voice_call"`
 	Incidents []Incident      `json:"incident"`
+	Support   []int           `json:"support"`
 }
-
-const (
-	LOW_LOAD  = 1
-	AVG_LOAD  = 2
-	HIGH_LOAD = 3
-)
