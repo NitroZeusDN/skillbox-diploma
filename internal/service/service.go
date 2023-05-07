@@ -8,8 +8,9 @@ import (
 type Service struct {
 	tmp string
 
-	billing BillingService
 	sms     SMSService
+	mms     MMSService
+	billing BillingService
 	email   EmailService
 }
 
@@ -19,14 +20,19 @@ func (s *Service) Get() (models.ResultSetT, error) {
 		err error
 	)
 
-	res.Billing, err = s.billing.Get()
-	if err != nil {
-		return models.ResultSetT{}, fmt.Errorf("failed to get billing data: %w", err)
-	}
-
 	res.SMS, err = s.sms.Get()
 	if err != nil {
 		return models.ResultSetT{}, fmt.Errorf("failed to get sms data: %w", err)
+	}
+
+	res.MMS, err = s.mms.Get()
+	if err != nil {
+		return models.ResultSetT{}, fmt.Errorf("failed to get mms data: %w", err)
+	}
+
+	res.Billing, err = s.billing.Get()
+	if err != nil {
+		return models.ResultSetT{}, fmt.Errorf("failed to get billing data: %w", err)
 	}
 
 	res.Email, err = s.email.Get()
@@ -40,8 +46,9 @@ func (s *Service) Get() (models.ResultSetT, error) {
 func New(tmp string) *Service {
 	return &Service{
 		tmp:     tmp,
-		billing: NewBillingService(fmt.Sprintf("%s/%s", tmp, models.BillingFilename)),
 		sms:     NewSMSService(fmt.Sprintf("%s/%s", tmp, models.SMSFilename)),
+		mms:     NewMMSService(),
+		billing: NewBillingService(fmt.Sprintf("%s/%s", tmp, models.BillingFilename)),
 		email:   NewEmailService(fmt.Sprintf("%s/%s", tmp, models.EmailFilename)),
 	}
 }
