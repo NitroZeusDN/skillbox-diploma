@@ -2,7 +2,7 @@ package models
 
 import (
 	"bufio"
-	"io/ioutil"
+	"io"
 	"os"
 	"skillbox-diploma/internal/utils"
 	"strconv"
@@ -22,14 +22,14 @@ type Voice struct {
 
 // Индексы столбцов из csv файла с Voice.
 const (
-	COUNTRY_VOICE = iota
-	LOAD_VOICE
-	RESPONSE_TIME_VOICE
-	PROVIDER_VOICE
-	STABILITY_VOICE
-	TTFB_VOICE
-	PURITY_VOICE
-	MEDIAN_DURATION_VOICE
+	countryVoice = iota
+	loadVoice
+	responseTimeVoice
+	providerVoice
+	stabilityVoice
+	ttfbVoice
+	purityVoice
+	medianDurationVoice
 )
 
 // VoiceFilename название csv файла с данными о Voice.
@@ -43,7 +43,7 @@ func GetVoice(path string) ([]Voice, error) {
 	}
 	defer file.Close()
 
-	content, err := ioutil.ReadAll(file)
+	content, err := io.ReadAll(file)
 	if err != nil {
 		return nil, err
 	}
@@ -71,36 +71,36 @@ func parseVoiceData(line string) (Voice, bool) {
 	switch {
 	case len(voice) != 8:
 		fallthrough
-	case !utils.IsValidCountry(voice[COUNTRY_VOICE]):
+	case !utils.IsValidCountry(voice[countryVoice]):
 		fallthrough
-	case !utils.IsValidLoad(voice[LOAD_VOICE]):
+	case !utils.IsValidLoad(voice[loadVoice]):
 		fallthrough
-	case !utils.IsValidResponseTime(voice[RESPONSE_TIME_VOICE]):
+	case !utils.IsValidResponseTime(voice[responseTimeVoice]):
 		fallthrough
-	case !utils.IsValidVoiceProvider(voice[PROVIDER_VOICE]):
+	case !utils.IsValidVoiceProvider(voice[providerVoice]):
 		fallthrough
-	case !utils.IsValidStability(voice[STABILITY_VOICE]):
+	case !utils.IsValidStability(voice[stabilityVoice]):
 		fallthrough
-	case !utils.IsValidPurity(voice[PURITY_VOICE]):
+	case !utils.IsValidPurity(voice[purityVoice]):
 		fallthrough
-	case !utils.IsValidTTFB(voice[TTFB_VOICE]):
+	case !utils.IsValidTTFB(voice[ttfbVoice]):
 		fallthrough
-	case !utils.IsMedianDuration(voice[MEDIAN_DURATION_VOICE]):
+	case !utils.IsMedianDuration(voice[medianDurationVoice]):
 		return Voice{}, false
 	}
 
-	load := voice[LOAD_VOICE]
-	responseTime := voice[RESPONSE_TIME_VOICE]
-	stability64, _ := strconv.ParseFloat(voice[STABILITY_VOICE], 32)
-	ttfb, _ := strconv.Atoi(voice[RESPONSE_TIME_VOICE])
-	purity, _ := strconv.Atoi(voice[PURITY_VOICE])
-	medianDuration, _ := strconv.Atoi(voice[MEDIAN_DURATION_VOICE])
+	load := voice[loadVoice]
+	responseTime := voice[responseTimeVoice]
+	stability64, _ := strconv.ParseFloat(voice[stabilityVoice], 32)
+	ttfb, _ := strconv.Atoi(voice[responseTimeVoice])
+	purity, _ := strconv.Atoi(voice[purityVoice])
+	medianDuration, _ := strconv.Atoi(voice[medianDurationVoice])
 
 	return Voice{
-		Country:        voice[COUNTRY_VOICE],
+		Country:        voice[countryVoice],
 		Load:           load,
 		ResponseTime:   responseTime,
-		Provider:       voice[PROVIDER_VOICE],
+		Provider:       voice[providerVoice],
 		Stability:      float32(stability64),
 		TTFB:           ttfb,
 		Purity:         purity,

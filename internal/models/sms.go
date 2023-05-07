@@ -2,7 +2,7 @@ package models
 
 import (
 	"bufio"
-	"io/ioutil"
+	"io"
 	"os"
 	"skillbox-diploma/internal/utils"
 	"strings"
@@ -18,10 +18,10 @@ type SMS struct {
 
 // Индексы столбцов SMS в csv файле.
 const (
-	COUNTRY_SMS = iota
-	BANDWIDTH_SMS
-	RESPONSE_TIME_SMS
-	PROVIDER_SMS
+	countrySMS = iota
+	bandwidthSMS
+	responseTimeSMS
+	providerSMS
 )
 
 // SMSFilename название файла с данными SMS.
@@ -35,7 +35,7 @@ func GetSMS(path string) ([]SMS, error) {
 	}
 	defer file.Close()
 
-	content, err := ioutil.ReadAll(file)
+	content, err := io.ReadAll(file)
 	if err != nil {
 		return nil, err
 	}
@@ -63,20 +63,20 @@ func parseSMS(line string) (SMS, bool) {
 	switch {
 	case len(sms) < 4:
 		fallthrough
-	case !utils.IsValidCountry(sms[COUNTRY_SMS]):
+	case !utils.IsValidCountry(sms[countrySMS]):
 		fallthrough
-	case !utils.IsValidBandwidth(sms[BANDWIDTH_SMS]):
+	case !utils.IsValidBandwidth(sms[bandwidthSMS]):
 		fallthrough
-	case !utils.IsValidResponseTime(sms[RESPONSE_TIME_SMS]):
+	case !utils.IsValidResponseTime(sms[responseTimeSMS]):
 		fallthrough
-	case !utils.IsValidSMSProvider(sms[PROVIDER_SMS]):
+	case !utils.IsValidSMSProvider(sms[providerSMS]):
 		return SMS{}, false
 	}
 
 	return SMS{
-		Country:      sms[COUNTRY_SMS],
-		Bandwidth:    sms[BANDWIDTH_SMS],
-		ResponseTime: sms[RESPONSE_TIME_SMS],
-		Provider:     sms[PROVIDER_SMS],
+		Country:      sms[countrySMS],
+		Bandwidth:    sms[bandwidthSMS],
+		ResponseTime: sms[responseTimeSMS],
+		Provider:     sms[providerSMS],
 	}, true
 }

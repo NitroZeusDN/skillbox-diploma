@@ -1,8 +1,9 @@
 package config
 
 import (
-	"github.com/ilyakaznacheev/cleanenv"
 	"sync"
+
+	"github.com/ilyakaznacheev/cleanenv"
 )
 
 const configPath = "./config.yml"

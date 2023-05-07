@@ -3,7 +3,7 @@ package models
 import (
 	"bufio"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"os"
 	"skillbox-diploma/internal/utils"
 	"sort"
@@ -22,9 +22,9 @@ type EmailCollection = map[string][][]Email
 
 // Индексы столбцов в csv файле
 const (
-	COUNTRY_EMAIL = iota
-	PROVIDER_EMAIL
-	DELIVERY_TIME_EMAIL
+	countryEmail = iota
+	providerEmail
+	deliveryTimeEmail
 )
 
 // EmailFilename название файла с данными Email.
@@ -38,7 +38,7 @@ func GetEmail(path string) ([]Email, error) {
 	}
 	defer file.Close()
 
-	content, err := ioutil.ReadAll(file)
+	content, err := io.ReadAll(file)
 	if err != nil {
 		return nil, fmt.Errorf("failed to read file: %w", err)
 	}
@@ -88,19 +88,19 @@ func parseEmail(line string) (Email, bool) {
 	switch {
 	case len(email) != 3:
 		fallthrough
-	case !utils.IsValidCountry(email[COUNTRY_EMAIL]):
+	case !utils.IsValidCountry(email[countryEmail]):
 		fallthrough
-	case !utils.IsValidEmailProvider(email[PROVIDER_EMAIL]):
+	case !utils.IsValidEmailProvider(email[providerEmail]):
 		fallthrough
-	case !utils.IsValidDeliveryTime(email[DELIVERY_TIME_EMAIL]):
+	case !utils.IsValidDeliveryTime(email[deliveryTimeEmail]):
 		return Email{}, false
 	}
 
-	deliveryTime, _ := strconv.Atoi(email[DELIVERY_TIME_EMAIL])
+	deliveryTime, _ := strconv.Atoi(email[deliveryTimeEmail])
 
 	return Email{
-		Country:      email[COUNTRY_EMAIL],
-		Provider:     email[PROVIDER_EMAIL],
+		Country:      email[countryEmail],
+		Provider:     email[providerEmail],
 		DeliveryTime: deliveryTime,
 	}, true
 }

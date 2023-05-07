@@ -1,19 +1,19 @@
 package models
 
 import (
-	"io/ioutil"
+	"io"
 	"math"
 	"os"
 )
 
 // Индексы для данных из биллинга.
 const (
-	BILLING_CREATE_CUSTOMER = iota
-	BILLING_PURCHASE
-	BILLING_PAYOUT
-	BILLING_RECURRING
-	BILLING_FRAUD_CONTROL
-	BILLING_CHECKOUT_PAGE
+	billingCreateCustomer = iota
+	billingPurchase
+	billingPayout
+	billingRecurring
+	billingFraudControl
+	billingCheckoutPage
 )
 
 // BillingFilename название файла с данными по биллингу.
@@ -37,7 +37,7 @@ func GetBilling(path string) (Billing, error) {
 	}
 	defer file.Close()
 
-	content, err := ioutil.ReadAll(file)
+	content, err := io.ReadAll(file)
 	if err != nil {
 		return Billing{}, err
 	}
@@ -60,11 +60,11 @@ func parseBilling(data []byte) Billing {
 	}
 
 	return Billing{
-		CreateCustomer: mask>>BILLING_CREATE_CUSTOMER&1 == 1,
-		Purchase:       mask>>BILLING_PURCHASE&1 == 1,
-		Payout:         mask>>BILLING_PAYOUT&1 == 1,
-		Recurring:      mask>>BILLING_RECURRING&1 == 1,
-		FraudControl:   mask>>BILLING_FRAUD_CONTROL&1 == 1,
-		CheckoutPage:   mask>>BILLING_CHECKOUT_PAGE&1 == 1,
+		CreateCustomer: mask>>billingCreateCustomer&1 == 1,
+		Purchase:       mask>>billingPurchase&1 == 1,
+		Payout:         mask>>billingPayout&1 == 1,
+		Recurring:      mask>>billingRecurring&1 == 1,
+		FraudControl:   mask>>billingFraudControl&1 == 1,
+		CheckoutPage:   mask>>billingCheckoutPage&1 == 1,
 	}
 }

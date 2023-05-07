@@ -8,9 +8,9 @@ import (
 const supportURL = "/support"
 
 const (
-	LOW_LOAD  = 1
-	AVG_LOAD  = 2
-	HIGH_LOAD = 3
+	lowLoad  = 1
+	avgLoad  = 2
+	highLoad = 3
 )
 
 type SupportService struct {
@@ -33,12 +33,12 @@ func (s SupportService) Get() ([]int, error) {
 	}
 
 	avgTime := activeTickets * 60 / 18
-	load := LOW_LOAD
+	load := lowLoad
 	switch {
 	case activeTickets >= 9 && activeTickets <= 16:
-		load = AVG_LOAD
+		load = avgLoad
 	case activeTickets > 16:
-		load = HIGH_LOAD
+		load = highLoad
 	}
 
 	return []int{load, avgTime}, nil

@@ -1,3 +1,5 @@
+// Package simulator
+// nolint
 package simulator
 
 import (

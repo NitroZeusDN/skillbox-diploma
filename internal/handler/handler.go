@@ -3,12 +3,13 @@ package handler
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/go-chi/chi/v5"
 	"log"
 	"net/http"
 	"skillbox-diploma/internal/config"
 	"skillbox-diploma/internal/models"
 	"skillbox-diploma/internal/service"
+
+	"github.com/go-chi/chi/v5"
 )
 
 type Handler struct {
@@ -41,13 +42,17 @@ func (h *Handler) handleConn(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusOK)
-	w.Write(data)
+	if _, err := w.Write(data); err != nil {
+		log.Printf("[warning] failed to write response: %s", err.Error())
+	}
 }
 
 func (h *Handler) responseError(w http.ResponseWriter, err error, isCritical bool) {
 	if isCritical {
 		w.WriteHeader(http.StatusInternalServerError)
-		w.Write([]byte{})
+		if _, err := w.Write([]byte{}); err != nil {
+			log.Printf("[warning] failed to write response: %s", err.Error())
+		}
 
 		return
 	}
@@ -63,11 +68,13 @@ func (h *Handler) responseError(w http.ResponseWriter, err error, isCritical boo
 	}
 
 	w.WriteHeader(http.StatusInternalServerError)
-	w.Write(data)
+	if _, err := w.Write(data); err != nil {
+		log.Printf("[warning] failed to write response: %s", err.Error())
+	}
 }
 
 func New(cfg config.Config) *Handler {
 	return &Handler{
-		service: service.New(cfg.TempDir, fmt.Sprintf("%s:%s", cfg.Simulator.Host, cfg.Simulator.Port)),
+		service: service.New(cfg.TempDir, fmt.Sprintf("%s:%d", cfg.Simulator.Host, cfg.Simulator.Port)),
 	}
 }
