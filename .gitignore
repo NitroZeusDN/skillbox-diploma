@@ -1,0 +1,23 @@
+# Compiled Object files, Static and Dynamic libs (Shared Objects)
+*.o
+*.a
+*.so
+
+# Folders
+_obj/
+_test/
+vendor/
+.idea/
+.vscode/
+
+# Compiled Go binary files
+*.exe
+*.test
+*.prof
+
+# Logs
+*.log
+
+# OS generated files
+Thumbs.db
+.DS_Store
