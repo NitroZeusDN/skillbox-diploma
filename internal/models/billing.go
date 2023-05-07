@@ -17,7 +17,7 @@ const (
 )
 
 // BillingFilename название файла с данными по биллингу.
-const BillingFilename = "billing.csv"
+const BillingFilename = "billing.txt"
 
 // Billing данные по биллингу.
 type Billing struct {
