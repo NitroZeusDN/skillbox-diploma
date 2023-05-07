@@ -9,10 +9,12 @@ import (
 
 const mmsURL = "/mms"
 
-type MMSService struct{}
+type MMSService struct {
+	host string
+}
 
 func (s MMSService) Get() ([][]models.MMS, error) {
-	data, err := models.GetMMS(mmsURL)
+	data, err := models.GetMMS(s.host + mmsURL)
 	if err != nil {
 		return nil, fmt.Errorf("getMMS failed: %w", err)
 	}
@@ -38,6 +40,8 @@ func (s MMSService) Get() ([][]models.MMS, error) {
 	}, nil
 }
 
-func NewMMSService() MMSService {
-	return MMSService{}
+func NewMMSService(host string) MMSService {
+	return MMSService{
+		host: host,
+	}
 }

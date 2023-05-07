@@ -8,11 +8,12 @@ import (
 type Service struct {
 	tmp string
 
-	sms     SMSService
-	mms     MMSService
-	billing BillingService
-	email   EmailService
-	voice   VoiceService
+	sms      SMSService
+	mms      MMSService
+	billing  BillingService
+	email    EmailService
+	voice    VoiceService
+	incident IncidentService
 }
 
 func (s *Service) Get() (models.ResultSetT, error) {
@@ -46,16 +47,22 @@ func (s *Service) Get() (models.ResultSetT, error) {
 		return models.ResultSetT{}, fmt.Errorf("failed to get voice call data: %w", err)
 	}
 
+	res.Incidents, err = s.incident.Get()
+	if err != nil {
+		return models.ResultSetT{}, fmt.Errorf("failed to get incidents data: %w", err)
+	}
+
 	return res, nil
 }
 
-func New(tmp string) *Service {
+func New(tmp, host string) *Service {
 	return &Service{
-		tmp:     tmp,
-		sms:     NewSMSService(fmt.Sprintf("%s/%s", tmp, models.SMSFilename)),
-		mms:     NewMMSService(),
-		billing: NewBillingService(fmt.Sprintf("%s/%s", tmp, models.BillingFilename)),
-		email:   NewEmailService(fmt.Sprintf("%s/%s", tmp, models.EmailFilename)),
-		voice:   NewVoiceService(fmt.Sprintf("%s/%s", tmp, models.VoiceFilename)),
+		tmp:      tmp,
+		sms:      NewSMSService(fmt.Sprintf("%s/%s", tmp, models.SMSFilename)),
+		mms:      NewMMSService(host),
+		billing:  NewBillingService(fmt.Sprintf("%s/%s", tmp, models.BillingFilename)),
+		email:    NewEmailService(fmt.Sprintf("%s/%s", tmp, models.EmailFilename)),
+		voice:    NewVoiceService(fmt.Sprintf("%s/%s", tmp, models.VoiceFilename)),
+		incident: NewIncidentService(host),
 	}
 }

@@ -12,6 +12,7 @@ type ResultSetT struct {
 	Billing   Billing         `json:"billing"`
 	Email     EmailCollection `json:"email"`
 	VoiceCall []Voice         `json:"voice_call"`
+	Incidents []Incident      `json:"incident"`
 }
 
 const (

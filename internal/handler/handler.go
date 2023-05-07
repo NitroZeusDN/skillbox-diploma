@@ -2,6 +2,7 @@ package handler
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/go-chi/chi/v5"
 	"log"
 	"net/http"
@@ -67,6 +68,6 @@ func (h *Handler) responseError(w http.ResponseWriter, err error, isCritical boo
 
 func New(cfg config.Config) *Handler {
 	return &Handler{
-		service: service.New(cfg.TempDir),
+		service: service.New(cfg.TempDir, fmt.Sprintf("%s:%s", cfg.Simulator.Host, cfg.Simulator.Port)),
 	}
 }
