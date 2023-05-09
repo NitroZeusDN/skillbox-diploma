@@ -33,3 +33,9 @@ JSON ответ как в [примере](output/1.json).
 ```bash
 make down 
 ``` 
+
+## Сторонние пакеты:
+
+- Go Chi [[link]](https://github.com/go-chi/chi)
+- Gorilla Mux [[link]](https://github.com/gorilla/mux)
+- Clean Env [[link]](https://github.com/ilyakaznacheev/cleanenv)
