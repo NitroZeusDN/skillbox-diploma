@@ -1,9 +1,9 @@
 temp_dir: ./data
 
 server:
-  addr: localhost
+  host: processor
   port: 8484
 
 simulator:
-  addr: localhost
+  host: simulator
   port: 8787

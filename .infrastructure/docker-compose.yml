@@ -1,0 +1,29 @@
+version: '3.8'
+
+volumes:
+  data:
+
+services:
+  processor:
+    image: skillbox-diploma/processor
+    restart: unless-stopped
+    build:
+      context: ..
+      dockerfile: ./.infrastructure/processor/Dockerfile
+      network: host
+    ports:
+      - "8484:8484"
+    volumes:
+      - ./data:/app/data:ro
+
+  simulator:
+    image: skillbox-diploma/simulator
+    restart: unless-stopped
+    build:
+      context: ..
+      dockerfile: ./.infrastructure/simulator/Dockerfile
+      network: host
+    ports:
+      - "8787:8787"
+    volumes:
+      - ./data:/app/data:ro

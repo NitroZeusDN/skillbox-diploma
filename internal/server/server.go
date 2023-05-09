@@ -28,7 +28,7 @@ func (s *Server) Shutdown(ctx context.Context) error {
 func New(cfg config.Address, h Handler) *Server {
 	return &Server{
 		httpServer: &http.Server{
-			Addr:         fmt.Sprintf("%s:%d", cfg.Host, cfg.Port),
+			Addr:         fmt.Sprintf(":%d", cfg.Port),
 			Handler:      h,
 			ReadTimeout:  10 * time.Second,
 			WriteTimeout: 10 * time.Second,

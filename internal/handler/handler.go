@@ -75,6 +75,6 @@ func (h *Handler) responseError(w http.ResponseWriter, err error, isCritical boo
 
 func New(cfg config.Config) *Handler {
 	return &Handler{
-		service: service.New(cfg.TempDir, fmt.Sprintf("%s:%d", cfg.Simulator.Host, cfg.Simulator.Port)),
+		service: service.New(cfg.TempDir, fmt.Sprintf("http://%s:%d", cfg.Simulator.Host, cfg.Simulator.Port)),
 	}
 }

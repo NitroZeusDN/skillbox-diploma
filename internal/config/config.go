@@ -18,7 +18,7 @@ type Config struct {
 	Server    Address `yaml:"server"`
 	Simulator Address `yaml:"simulator"`
 
-	TempDir string `yaml:"tmp_dir"`
+	TempDir string `yaml:"temp_dir"`
 }
 
 // Address конфигурация адреса (хост, порт).
